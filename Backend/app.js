@@ -7,6 +7,10 @@ import { connection } from "./database/connection.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import userRouter from "./router/userRoutes.js";
 import auctionItemRouter from "./router/auctionItemRoutes.js";
+import bidRouter from "./router/bidsRoutes.js";
+import commissionRouter from "./router/commisionRouter.js";
+import superAdminRouter from "./router/superAdminroutes.js";
+import { endedAuctionCron } from "./automation/endedAuctionCron.js"
 
 const app = express();
 config({
@@ -33,6 +37,14 @@ app.use(fileUpload({
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auctionItem", auctionItemRouter);
+app.use("/api/v1/bid", bidRouter);
+app.use("/api/v1/commission", commissionRouter);
+app.use("/api/v1/superadmin", superAdminRouter);
+
+
+endedAuctionCron(); // Start the cron job for ended auctions
+
+
 // Connect DB
 connection();
 

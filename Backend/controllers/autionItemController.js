@@ -4,7 +4,7 @@ import {User} from "../models/userSchema.js";
 import {catchAsyncErrors} from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from"../middlewares/error.js";
 import {v2 as cloudinary} from "cloudinary";
-
+import { Bid } from "../models/bidSchema.js";
 
 export const addNewAuctionItem = catchAsyncErrors(async (req, res,next) => {
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -171,14 +171,25 @@ export const republishItem = catchAsyncErrors(async (req, res, next) => {
   if(data.startTime >= data.endTime){
     return next(new ErrorHandler("Auction Start time must be less than End Time.",400));
   }
+
+  if(auctionItem.highestBidder){
+    const highestBidder = await User.findById(auctionItem.highestBidder);
+    highestBidder.moneySpent -= auctionItem.currentBid; 
+    highestBidder.auctionWon -= 1;
+    await highestBidder.save();
+  }
+
+
   data.bids = [];
   data.commissionCalculated = false;
-  
+  data.currentBid = 0;
+  data.highestBidder = null;
   auctionItem=await Auction.findByIdAndUpdate(id,data,{
     new: true,
     runValidators: true,
     useFindAndModify: false,
   })
+  await Bid.deleteMany({auctionItem:auctionItem._id})
   const createdBy = await User.findByIdAndUpdate(req.user._id,
     {unpaidCommission: 0},
     {
