@@ -175,20 +175,29 @@ export const republishItem = catchAsyncErrors(async (req, res, next) => {
   if(auctionItem.highestBidder){
     const highestBidder = await User.findById(auctionItem.highestBidder);
     highestBidder.moneySpent -= auctionItem.currentBid; 
-    highestBidder.auctionWon -= 1;
+    highestBidder.auctionsWon -= 1;
     await highestBidder.save();
   }
 
 
-  data.bids = [];
-  data.commissionCalculated = false;
-  data.currentBid = 0;
-  data.highestBidder = null;
-  auctionItem=await Auction.findByIdAndUpdate(id,data,{
+auctionItem = await Auction.findByIdAndUpdate(
+  id,
+  {
+    $set: {
+      startTime: new Date(req.body.startTime),
+      endTime: new Date(req.body.endTime),
+      bids: [],
+      commissionCalculated: false,
+      currentBid: 0,
+      highestBidder: null
+    }
+  },
+  {
     new: true,
-    runValidators: true,
-    useFindAndModify: false,
-  })
+    runValidators: true
+  }
+);
+
   await Bid.deleteMany({auctionItem:auctionItem._id})
   const createdBy = await User.findByIdAndUpdate(req.user._id,
     {unpaidCommission: 0},

@@ -11,6 +11,7 @@ import bidRouter from "./router/bidsRoutes.js";
 import commissionRouter from "./router/commisionRouter.js";
 import superAdminRouter from "./router/superAdminroutes.js";
 import { endedAuctionCron } from "./automation/endedAuctionCron.js"
+import { verifyCommissionCron } from "./automation/verifyCommissionCron.js";
 
 const app = express();
 config({
@@ -43,6 +44,7 @@ app.use("/api/v1/superadmin", superAdminRouter);
 
 
 endedAuctionCron(); // Start the cron job for ended auctions
+verifyCommissionCron(); // Start the cron job for verifying commissions
 
 
 // Connect DB

@@ -6,18 +6,17 @@ import { calculateCommission } from "../controllers/commissionController.js";
 import { Bid } from "../models/bidSchema.js";
 import { sendEmail } from "../utils/sendEmail.js";
 
-
-export const endedAuctionCron = () =>{
-  cron.schedule("*/1 * * * *", async()=>{
+export const endedAuctionCron = () => {
+  cron.schedule("*/1 * * * *", async () => {
     const now = new Date();
     console.log("Cron for ended auction running...");
     const endedAuctions = await Auction.find({
-      endTime: {$lt: now},
+      endTime: { $lt: now },
       commissionCalculated: false,
     });
-
-    for(const auction of endedAuctions) {
-      try{
+    console.log(endedAuctions)
+    for (const auction of endedAuctions) {
+      try {
         const commissionAmount = await calculateCommission(auction._id);
         auction.commissionCalculated = true;
         const highestBidder = await Bid.findOne({
@@ -25,35 +24,33 @@ export const endedAuctionCron = () =>{
           amount: auction.currentBid,
         });
         const auctioneer = await User.findById(auction.createdBy);
-        auctioneer.unpaidCommission= commissionAmount;
-
-        if(highestBidder){
+        auctioneer.unpaidCommission = commissionAmount;
+        if (highestBidder) {
           auction.highestBidder = highestBidder.bidder.id;
           await auction.save();
           const bidder = await User.findById(highestBidder.bidder.id);
-          const highestBidAmount = bidder.moneySpent + highestBidder.amount;
-
-          await User.findByIdAndUpdate(bidder._id,{
-            $inc:{
-              moneySpent:highestBidder.amount,
-              auctionWon:1,
-            },
-          },
-          {new: true}
-          );
-          await User.findByIdAndUpdate(auctioneer._id,
+          await User.findByIdAndUpdate(
+            bidder._id,
             {
-              $inc:{
-                unpaidCommission: commissionAmount
-              }
+              $inc: {
+                moneySpent: highestBidder.amount,
+                auctionsWon: 1,
+              },
             },
-            {
-              new: true,
-            }
+            { new: true }
           );
-        const subject = `🎉 Congratulations on Winning - ${auction.title}`;
-
-        const message = `Dear ${bidder.userName}, 
+          await User.findByIdAndUpdate(
+            auctioneer._id,
+            {
+              $inc: {
+                unpaidCommission: commissionAmount,
+              },
+            },
+            { new: true }
+          );
+          console.log("hlo")
+          const subject = `Congratulations! You won the auction for ${auction.title}`;
+          const message = `Dear ${bidder.userName}, 
 
         Congratulations! You have won the auction for **${auction.title}**.
 
@@ -85,18 +82,18 @@ export const endedAuctionCron = () =>{
         Thank you for participating!
 
         Best regards,  
-        **Auction Team**
-        `;
-        console.log("Sending email to higest bidder")
-        await sendEmail({email: bidder.email, subject, message})
-        console.log("Successfully Email Send to Highest Bidder");
-        }else{
+        **Auction Team** `;
+          console.log("SENDING EMAIL TO HIGHEST BIDDER");
+          console.log("hlo")
+          console.log(`${bidder.email}  ${subject}`)
+          await sendEmail({ email: bidder.email, subject, message });
+          console.log("SUCCESSFULLY EMAIL SEND TO HIGHEST BIDDER");
+        } else {
           await auction.save();
         }
-      }catch(error){
-        return next(console.error(error|| "Some error in ended auction cron"));
+      } catch (error) {
+        (console.error(error || "Some error in ended auction cron"));
       }
     }
-    
   });
-}
+};

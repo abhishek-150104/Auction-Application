@@ -4,6 +4,7 @@ import { PaymentProof } from "../models/commissionProofSchema.js";
 import {User} from "../models/userSchema.js";
 import { Auction } from "../models/auctionSchema.js";
 import {v2 as cloudinary} from "cloudinary";
+import mongoose from "mongoose";
 
 export const calculateCommission = async(auctionId)=>{
   
