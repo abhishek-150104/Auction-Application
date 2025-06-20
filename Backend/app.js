@@ -12,6 +12,9 @@ import commissionRouter from "./router/commisionRouter.js";
 import superAdminRouter from "./router/superAdminroutes.js";
 import { endedAuctionCron } from "./automation/endedAuctionCron.js"
 import { verifyCommissionCron } from "./automation/verifyCommissionCron.js";
+// Backend: index.js or app.js
+// import cors from 'cors';
+
 
 const app = express();
 config({
@@ -25,6 +28,11 @@ app.use(cors({
   methods: ["POST", "GET", "PUT", "DELETE"],
   credentials: true
 }));
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
+
 
 app.use(cookieParser());
 app.use(express.json());
