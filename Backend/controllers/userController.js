@@ -158,3 +158,4 @@ export const fetchLeaderboard = catchAsyncErrors(async (req, res, next) => {
     leaderboard, // Return top money speneder 
   });
 });
+

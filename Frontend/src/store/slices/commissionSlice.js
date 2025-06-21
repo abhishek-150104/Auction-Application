@@ -20,13 +20,13 @@ const commissionSlice = createSlice({
   }
 })
 
-export const proofCommissionProof = (data) =>async(dispatch)=>{
+export const postCommissionProof = (data) =>async(dispatch)=>{
   dispatch(commissionSlice.actions.postCommissionProofRequest());
   try{
     const response = await axios.post("http://localhost:5000/api/v1/commission/proof", data,
       {
         withCredentials:true,
-        headers: {"Content-Type" : "application/json"}
+        headers: {"Content-Type" : "multipart/form-data"}
       }
     );
     dispatch(commissionSlice.actions.postCommissionProofSuccess());
@@ -42,4 +42,4 @@ export const proofCommissionProof = (data) =>async(dispatch)=>{
 
   }
 
-  export default commissionSlice;
+  export default commissionSlice.reducer;
