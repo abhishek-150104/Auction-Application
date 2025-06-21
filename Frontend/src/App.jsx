@@ -8,14 +8,20 @@ import SignUp from "./pages/SignUp"
 import Login from './pages/Login';
 import SubmitCommission from './pages/SubmitCommission';
 import { useDispatch } from 'react-redux';
-import { fetchUser } from './store/slices/userSlice';
+import { fetchLeaderboard, fetchUser } from './store/slices/userSlice';
 import HowItWorks from './pages/HowItWorks';
 import AboutUs from './pages/AboutUs';
+import { getAllAuctionItems } from './store/slices/auctionSlice';
+import Leaderboard from './pages/Leaderboard';
+import Auction from './pages/Auction';
+import AuctionItem from './pages/AuctionItem';
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(()=>{
     dispatch(fetchUser())
+    dispatch(getAllAuctionItems())
+    dispatch(fetchLeaderboard())
   },[])
   return (
    <Router>
@@ -29,7 +35,10 @@ const App = () => {
     <Route path="/login" element={<Login />} />
     <Route path="/submit-commission" element={<SubmitCommission/>} />
     <Route path="/how-it-works-info" element={<HowItWorks/>} />
-     <Route path="/about" element={<AboutUs/>} />
+    <Route path="/about" element={<AboutUs/>} />
+    <Route path="/leaderboard" element={<Leaderboard/>} />
+    <Route path="/auctions" element ={<Auction/>}/>
+    <Route path="/auction/item/:id" element ={<AuctionItem/>}/>
 
   </Routes>
 
