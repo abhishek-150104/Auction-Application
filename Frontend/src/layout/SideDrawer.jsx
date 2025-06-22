@@ -10,18 +10,18 @@ import { IoMdCloseCircleOutline, IoIosCreate } from "react-icons/io";
 import { FaFileInvoiceDollar } from "react-icons/fa6";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../store/slices/userSlice.js"
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SideDrawer = () => {
   const [show, setShow] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
-    setShow(false); 
-    navigate("/")
+    setShow(false);
+    navigate("/");
   };
 
   const handleNavClick = () => setShow(false);
@@ -30,12 +30,13 @@ const SideDrawer = () => {
     <>
       <div
         onClick={() => setShow(!show)}
-        className="fixed right-5 top-5 bg-[#D6482B] text-white text-3xl p-2 rounded-md hover:bg-[#b8381e] lg:hidden"
+        className="fixed right-5 top-5 z-[1000] bg-[#D6482B] text-white text-3xl p-2 rounded-md hover:bg-[#b8381e] lg:hidden"
       >
         <GiHamburgerMenu />
       </div>
+
       <div
-        className={`w-[100%] sm:w-[300px] bg-[#f6f4f0] h-full fixed top-0 ${show ? "left-0" : "left-[-100%]"
+        className={`w-[100%] sm:w-[300px] bg-[#f6f4f0] h-full fixed top-0 z-[100] ${show ? "left-0" : "left-[-100%]"
           } transition-all duration-150 p-4 flex flex-col justify-between lg:left-0 border-r-[1px] border-r-stone-500`}
       >
         <div className="relative">
@@ -49,7 +50,7 @@ const SideDrawer = () => {
               <Link
                 to={"/auctions"}
                 onClick={handleNavClick}
-                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] hover:transition-all hover:duration-150"
+                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] transition-all duration-150"
               >
                 <RiAuctionFill /> Auctions
               </Link>
@@ -58,18 +59,18 @@ const SideDrawer = () => {
               <Link
                 to={"/leaderboard"}
                 onClick={handleNavClick}
-                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] hover:transition-all hover:duration-150"
+                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] transition-all duration-150"
               >
                 <MdLeaderboard /> Leaderboard
               </Link>
             </li>
-            {isAuthenticated && user && user.role === "Auctioneer" && (
+            {isAuthenticated && user?.role === "Auctioneer" && (
               <>
                 <li>
                   <Link
                     to={"/submit-commission"}
                     onClick={handleNavClick}
-                    className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] hover:transition-all hover:duration-150"
+                    className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] transition-all duration-150"
                   >
                     <FaFileInvoiceDollar /> Submit Commission
                   </Link>
@@ -78,7 +79,7 @@ const SideDrawer = () => {
                   <Link
                     to={"/create-auction"}
                     onClick={handleNavClick}
-                    className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] hover:transition-all hover:duration-150"
+                    className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] transition-all duration-150"
                   >
                     <IoIosCreate /> Create Auction
                   </Link>
@@ -87,25 +88,26 @@ const SideDrawer = () => {
                   <Link
                     to={"/view-my-auctions"}
                     onClick={handleNavClick}
-                    className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] hover:transition-all hover:duration-150"
+                    className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] transition-all duration-150"
                   >
                     <FaEye /> View My Auctions
                   </Link>
                 </li>
               </>
             )}
-            {isAuthenticated && user && user.role === "Super Admin" && (
+            {isAuthenticated && user?.role === "Super Admin" && (
               <li>
                 <Link
                   to={"/dashboard"}
                   onClick={handleNavClick}
-                  className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] hover:transition-all hover:duration-150"
+                  className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] transition-all duration-150"
                 >
                   <MdDashboard /> Dashboard
                 </Link>
               </li>
             )}
           </ul>
+
           {!isAuthenticated ? (
             <div className="my-4 flex gap-2">
               <Link
@@ -133,14 +135,16 @@ const SideDrawer = () => {
               </button>
             </div>
           )}
+
           <hr className="mb-4 border-t-[#d6482b]" />
+
           <ul className="flex flex-col gap-3">
             {isAuthenticated && (
               <li>
                 <Link
                   to={"/me"}
                   onClick={handleNavClick}
-                  className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] hover:transition-all hover:duration-150"
+                  className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] transition-all duration-150"
                 >
                   <FaUserCircle /> Profile
                 </Link>
@@ -150,7 +154,7 @@ const SideDrawer = () => {
               <Link
                 to={"/how-it-works-info"}
                 onClick={handleNavClick}
-                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] hover:transition-all hover:duration-150"
+                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] transition-all duration-150"
               >
                 <SiGooglesearchconsole /> How it works
               </Link>
@@ -159,12 +163,13 @@ const SideDrawer = () => {
               <Link
                 to={"/about"}
                 onClick={handleNavClick}
-                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] hover:transition-all hover:duration-150"
+                className="flex text-xl font-semibold gap-2 items-center hover:text-[#D6482b] transition-all duration-150"
               >
                 <BsFillInfoSquareFill /> About Us
               </Link>
             </li>
           </ul>
+
           <IoMdCloseCircleOutline
             onClick={() => setShow(false)}
             className="absolute top-0 right-4 text-[28px] sm:hidden"
@@ -192,7 +197,7 @@ const SideDrawer = () => {
           <Link
             to={"/contact"}
             onClick={handleNavClick}
-            className="text-stone-500 font-semibold hover:text-[#d6482b] hover:transition-all hover:duration-150"
+            className="text-stone-500 font-semibold hover:text-[#d6482b] transition-all duration-150"
           >
             Contact Us
           </Link>
@@ -202,7 +207,7 @@ const SideDrawer = () => {
             <Link
               to={"/"}
               onClick={handleNavClick}
-              className="font-semibold hover:text-[#d6482b] hover:transition-all hover:duration-150"
+              className="font-semibold hover:text-[#d6482b] transition-all duration-150"
             >
               Auction House
             </Link>

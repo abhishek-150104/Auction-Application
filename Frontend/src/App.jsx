@@ -15,6 +15,12 @@ import { getAllAuctionItems } from './store/slices/auctionSlice';
 import Leaderboard from './pages/Leaderboard';
 import Auction from './pages/Auction';
 import AuctionItem from './pages/AuctionItem';
+import CreateAuction from './pages/CreateAuction';
+import Contact from './pages/Contact';
+import ViewMyAuction from './pages/ViewMyAuction';
+import ViewAuctionDetails from './pages/ViewAuctionDetails';
+import UserProfile from './pages/UserProfile';
+import Dashboard from './Dashboard/Dashboard';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,6 +45,12 @@ const App = () => {
     <Route path="/leaderboard" element={<Leaderboard/>} />
     <Route path="/auctions" element ={<Auction/>}/>
     <Route path="/auction/item/:id" element ={<AuctionItem/>}/>
+    <Route path="/create-auction" element ={<CreateAuction/>}/>
+    <Route path="/contact" element ={<Contact/>}/>
+    <Route path="/view-my-auctions" element ={<ViewMyAuction/>}/>
+    <Route path="/auction/details/:id" element ={<ViewAuctionDetails/>}/>
+    <Route path="/me" element ={<UserProfile/>}/>
+    <Route path="/dashboard" element ={<Dashboard/>}/>
 
   </Routes>
 

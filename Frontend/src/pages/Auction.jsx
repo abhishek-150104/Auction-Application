@@ -11,11 +11,12 @@ const Auctions = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <article className="w-full ml-0 m-0 h-fit px-0 pt-20 lg:pl-[320px] flex flex-col min-h-screen bg-gradient-to-br from-[#f8fafc] via-[#fff7f3] to-[#fbeee6]">
-          <section className="my-8 max-w-7xl mx-auto w-full px-4">
+        <article className="w-full ml-0 m-0 h-fit px-5 pt-20 lg:pl-[320px] flex flex-col">
+          <section className="my-8">
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 mb-8">
               <div>
-                <h1 className="text-[#d6482b] text-3xl md:text-5xl font-extrabold tracking-tight drop-shadow-lg mb-2">
+               <h1
+              className={`text-[#d6482b] text-2xl font-bold mb-2 min-[480px]:text-4xl md:text-6xl xl:text-7xl 2xl:text-8xl`}>
                   Explore Live Auctions
                 </h1>
                 <p className="text-lg text-stone-600 max-w-2xl">

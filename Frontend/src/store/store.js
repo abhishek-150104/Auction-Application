@@ -2,8 +2,7 @@
   import userSlice from "./slices/userSlice.js"
 import commissionReducer from "./slices/commissionSlice.js";
 import auctionReducer from "./slices/auctionSlice.js";
-
-// Dummy slice as a placeholder
+import bidReducer from "./slices/bidSlice.js";
 
 
 export const store = configureStore({
@@ -11,5 +10,7 @@ export const store = configureStore({
     user: userSlice,
     commission: commissionReducer,
     auction:auctionReducer,
+    bid: bidReducer,
+    superAdmin: superAdminReducer,
   },
 });
