@@ -3,12 +3,11 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend,
-  LineElement,
-  PointElement,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
@@ -16,54 +15,60 @@ import { useSelector } from "react-redux";
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
-  LineElement,
-  PointElement
+  Legend
 );
 
 const BiddersAuctioneersGraph = () => {
   const { totalAuctioneers, totalBidders } = useSelector(
     (state) => state.superAdmin
   );
+
   const data = {
     labels: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ],
     datasets: [
       {
         label: "Number of Bidders",
         data: totalBidders,
         borderColor: "#D6482B",
+        backgroundColor: "#D6482B",
         fill: false,
+        tension: 0.4,
       },
       {
         label: "Number of Auctioneers",
         data: totalAuctioneers,
         borderColor: "#fdba88",
+        backgroundColor: "#fdba88",
         fill: false,
+        tension: 0.4,
       },
     ],
   };
 
   const options = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: "Monthly Bidders and Auctioneers Registered",
+        font: {
+          size: 18,
+        },
+      },
+      legend: {
+        position: "bottom",
+      },
+    },
     scales: {
       y: {
         beginAtZero: true,
-        max: 50,
         ticks: {
           callback: function (value) {
             return value.toLocaleString();
@@ -71,15 +76,13 @@ const BiddersAuctioneersGraph = () => {
         },
       },
     },
-    plugins: {
-      title: {
-        display: true,
-        text: "Number of Bidders And Auctioneers Registered",
-      },
-    },
   };
 
-  return <Line data={data} options={options} />;
+  return (
+    <div className="w-full max-w-4xl mx-auto bg-white p-4 rounded-lg shadow-md">
+      <Line data={data} options={options} />
+    </div>
+  );
 };
 
 export default BiddersAuctioneersGraph;

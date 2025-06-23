@@ -33,8 +33,8 @@ const superAdminSlice = createSlice({
     },
     successForAllUsers(state, action) {
       state.loading = false;
-      state.totalAuctioneers = action.payload.auctioneersArray;
-      state.totalBidders = action.payload.biddersArray;
+      state.totalAuctioneers = action.payload.auctioneerArray;
+      state.totalBidders = action.payload.bidderArray;
     },
     failureForAllUsers(state, action) {
       state.loading = false;
