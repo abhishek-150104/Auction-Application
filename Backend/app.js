@@ -39,7 +39,10 @@ app.use(fileUpload({
   tempFileDir: "/tmp/"
 }));
 app.get('/',(req,res) => {
-  res.send('Active Status')
+  res.send({
+    activeStatus:true,
+    error:false,
+  })
 })
 
 app.use("/api/v1/user", userRouter);
