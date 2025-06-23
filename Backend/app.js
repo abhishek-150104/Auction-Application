@@ -23,7 +23,7 @@ config({
 
 
 app.use(cors({
-  origin: ['http://localhost:5173','https://primebid19.netlify.app'],
+  origin: ['http://localhost:5173','https://auction-application-t7yj.vercel.app'],
   methods: ["POST", "GET", "PUT", "DELETE"],
   credentials: true,
 }));
