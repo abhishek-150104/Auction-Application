@@ -21,9 +21,14 @@ config({
   path:"./config/config.env"
 })
 
-
-app.use(cors());
-
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://auction-application-t7yj.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 app.use(cookieParser());
 app.use(express.json());
