@@ -38,6 +38,9 @@ app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: "/tmp/"
 }));
+app.get('/',(req,res) => {
+  res.send('Active Status')
+})
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auctionItem", auctionItemRouter);
