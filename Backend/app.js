@@ -22,14 +22,7 @@ config({
 })
 
 
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://primebid19.netlify.app", 
-    "https://auction-application-t7yj-i5hvwkv5a-abhishek-150104s-projects.vercel.app"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-}));
+app.use(cors());
 
 
 app.use(cookieParser());
