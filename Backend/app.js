@@ -23,7 +23,7 @@ config({
 
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173','https://primebid19.netlify.app'],
   methods: ["POST", "GET", "PUT", "DELETE"],
   credentials: true,
 }));
